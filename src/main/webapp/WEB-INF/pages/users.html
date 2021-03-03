@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://www.w3.org/1999/XSL/Transform"
+      xmlns:form="http://www.w3.org/1999/xhtml" xmlns:spring="">
+<head>
+    <meta charset="UTF-8">
+    <title>User Page</title>
+    <style type="text/css">
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border-color: #ccc;
+        }
+
+        .tg td {
+            front-familly: Arial, sans-serif;
+            front-size: 14px;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+            border-color: #ccc;
+            color: #333;
+            background-color: #fff;
+        }
+
+        .tg th {
+            front-familly: Arial, sans-serif;
+            front-size: 14px;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+            border-color: #ccc;
+            color: #333;
+            background-color: #f0f0f0;
+        }
+
+        .tg .tg-4eph {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+<a href="../../index.html">Back to main menu</a>
+
+<br/>
+<br/>
+
+<h1>User List</h1>
+
+<c:if test="${!empty listUsers}">
+<!--    tg стиль который указан выше-->
+    <table class="tg">
+        <tr>
+            <th width="80">ID</th>
+            <th width="120">NAME</th>
+            <th width="120">LAST_NAME</th>
+            <th width="120">PHONE_NUMBER</th>
+            <th width="120">EMAIL</th>
+            <th width="60">Edit</th>
+            <th width="60">Delete</th>
+        </tr>
+        <c:forEach items="${listUsers}" var="user">
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.name}</td>
+                <td>${user.lastName}</td>
+                <td>${user.phoneNumber}</td>
+                <td>${user.email}</td>
+                <td><a href="<c:url value='/edit/${user.id}'/>">Edit</a></td>
+                <td><a href="<c:url value='/remove/${user.id}'/>">Delete</a></td>
+            </tr>
+        </c:forEach>
+    </table>
+</c:if>
+
+<h1>Add a User</h1>
+
+<c:url var="addAction" value="/users/add"/>
+<form:from action="${addAction}" commandName="user">
+    <table>
+        <c:if test="${!empty user.mame}">
+            <tr>
+                <td>
+                    <form:label path="id">
+                        <spring:massage text="ID"/>
+                    </form:label>
+                </td>
+                <td>
+                    <form:input path="id" readonly="true" size="8" disabled="true"/>
+                    <form:hidden path="id"/>
+                </td>
+            </tr>
+        </c:if>
+        <tr>
+            <td>
+                <form:label path="name">
+                    <spring:massage text="Name"/>
+                </form:label>
+            </td>
+            <td>
+                <form:input path="name"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form:label path="lastName">
+                    <spring:massage text="LastName"/>
+                </form:label>
+            </td>
+            <td>
+                <form:input path="lastName"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form:label path="phoneNumber">
+                    <spring:massage text="PhoneNumber"/>
+                </form:label>
+            </td>
+            <td>
+                <form:input path="phoneNumber"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form:label path="email">
+                    <spring:massage text="Email"/>
+                </form:label>
+            </td>
+            <td>
+                <form:input path="email"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <c:if test="${!empty user.name}">
+                    <input type="submit"
+                           value="<spring:massage text=" Edit User"/>"/>
+                </c:if>
+                <c:if test="${empty user.name}">
+                    <input type="submit"
+                           value="<spring:massage text=" Add User"/>"/>
+                </c:if>
+            </td>
+        </tr>
+    </table>
+</form:from>
+</body>
+</html>
