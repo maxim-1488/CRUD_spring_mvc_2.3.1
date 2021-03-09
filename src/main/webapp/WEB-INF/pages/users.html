@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://www.w3.org/1999/XSL/Transform"
-      xmlns:form="http://www.w3.org/1999/xhtml" xmlns:spring="">
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:c="http://java.sun.com/xml/ns/javaee">
+<!--      xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://www.w3.org/1999/XSL/Transform"-->
+<!--      xmlns:form="http://www.w3.org/1999/xhtml" xmlns:spring="">-->
 <head>
     <meta charset="UTF-8">
-    <title>User Page</title>
+    <title>PHONE BOOK</title>
     <style type="text/css">
         .tg {
             border-collapse: collapse;
@@ -44,110 +46,93 @@
     </style>
 </head>
 <body>
-<a href="../../index.html">Back to main menu</a>
-
-<br/>
-<br/>
-
-<h1>User List</h1>
-
-<c:if test="${!empty listUsers}">
 <!--    tg стиль который указан выше-->
-    <table class="tg">
+<div th:align="center" class="tg">
+    <h2>PHONE BOOK</h2>
+    <br/>
+    <h3><a href="/users/new.html">Add new User</a></h3>
+    <br/>
+    <table border="1" cellpadding="5">
         <tr>
-            <th width="80">ID</th>
-            <th width="120">NAME</th>
-            <th width="120">LAST_NAME</th>
-            <th width="120">PHONE_NUMBER</th>
-            <th width="120">EMAIL</th>
-            <th width="60">Edit</th>
-            <th width="60">Delete</th>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>LAST_NAME</th>
+            <th>PHONE_NUMBER</th>
+            <th>EMAIL</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
-        <c:forEach items="${listUsers}" var="user">
-            <tr>
-                <td>${user.id}</td>
-                <td>${user.name}</td>
-                <td>${user.lastName}</td>
-                <td>${user.phoneNumber}</td>
-                <td>${user.email}</td>
-                <td><a href="<c:url value='/edit/${user.id}'/>">Edit</a></td>
-                <td><a href="<c:url value='/remove/${user.id}'/>">Delete</a></td>
-            </tr>
-        </c:forEach>
-    </table>
-</c:if>
-
-<h1>Add a User</h1>
-
-<c:url var="addAction" value="/users/add"/>
-<form:from action="${addAction}" commandName="user">
-    <table>
-        <c:if test="${!empty user.mame}">
-            <tr>
-                <td>
-                    <form:label path="id">
-                        <spring:massage text="ID"/>
-                    </form:label>
-                </td>
-                <td>
-                    <form:input path="id" readonly="true" size="8" disabled="true"/>
-                    <form:hidden path="id"/>
-                </td>
-            </tr>
-        </c:if>
-        <tr>
-            <td>
-                <form:label path="name">
-                    <spring:massage text="Name"/>
-                </form:label>
-            </td>
-            <td>
-                <form:input path="name"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <form:label path="lastName">
-                    <spring:massage text="LastName"/>
-                </form:label>
-            </td>
-            <td>
-                <form:input path="lastName"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <form:label path="phoneNumber">
-                    <spring:massage text="PhoneNumber"/>
-                </form:label>
-            </td>
-            <td>
-                <form:input path="phoneNumber"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <form:label path="email">
-                    <spring:massage text="Email"/>
-                </form:label>
-            </td>
-            <td>
-                <form:input path="email"/>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <c:if test="${!empty user.name}">
-                    <input type="submit"
-                           value="<spring:massage text=" Edit User"/>"/>
-                </c:if>
-                <c:if test="${empty user.name}">
-                    <input type="submit"
-                           value="<spring:massage text=" Add User"/>"/>
-                </c:if>
-            </td>
+        <tr th:each="user : ${allUsers}">
+            <td th:text="${user.id}">ID</td>
+            <td th:text="${user.name}">NAME</td>
+            <td th:text="${user.lastName}">LAST_NAME</td>
+            <td th:text="${user.phoneNumber}">PHONE_NUMBER</td>
+            <td th:text="${user.email}">EMAIL</td>
+            <td><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></td>
+            <td><a th:href="@{/remove/{id}(id=${user.id})}">Delete</a></td>
         </tr>
     </table>
-</form:from>
+</div>
 </body>
 </html>
+
+<!--<h2>Add a User</h2>-->
+
+<!--&lt;!&ndash;<a href="/users/add">&ndash;&gt;-->
+<!--<form th:action="@{/users/add}" th:object="${user}" method="post">-->
+<!--    &lt;!&ndash;    <table>&ndash;&gt;-->
+<!--    <tr>-->
+<!--        <td>Name:</td>-->
+<!--        <td><input type="text" th:field="*{name}"/></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>lastName:</td>-->
+<!--        <td><input field="lastName"/></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>phoneNumber:</td>-->
+<!--        <td><input field="phoneNumber"/></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>Email:</td>-->
+<!--        <td><input field="email"/></td>-->
+<!--    </tr>-->
+    <!--    <label th:for="name">Name</label>-->
+    <!--    <input type="text" th:field="*{name}"/>-->
+    <!--    <label th:form="lastName">lastName</label>-->
+    <!--    <label for="lastName"></label><input type="text" th:field="*{lastName}" id="lastName" placeholder="LastName"/>-->
+    <!--    <label th:form="phoneNumber">phoneNumber</label>-->
+    <!--    <label for="phoneNumber"></label><input type="text" th:field="*{phoneNumber}" id="phoneNumber"-->
+    <!--                                            placeholder="PhoneNumber"/>-->
+    <!--    <label th:form="email">Email</label>-->
+    <!--    <label for="email"></label><input type="text" th:field="*{email}" id="email" placeholder="Email"/>-->
+    <!--    <input type="submit" value="Add"/>-->
+    <!--    </table>-->
+    <!--    <p><strong>What you name?</strong></p>-->
+    <!--    <p><input maxlength="25" size="40" value="Max"></p>-->
+    <!--</form>-->
+    <!--<form th:action="@{/add/{id}(id=${user.id})}" th:object="${user}" method="post">-->
+    <!--    <br/> Name:-->
+    <!--    <input type="text" th:field="*{name}"/>-->
+    <!--    <br/> Age:-->
+    <!--    <input type="text" th:field="*{lastName}"/>-->
+    <!--    <br/> Email:-->
+    <!--    <input type="text" th:field="*{phoneNumber}"/>-->
+    <!--    <br/>-->
+    <!--    <input type="submit" value="Update User"/>-->
+    <!--        <table border="0" cellpadding="5">-->
+    <!--            <tr>-->
+    <!--                <td>Name: </td>-->
+    <!--                <td><form:input path="name" /></td>-->
+    <!--            </tr>-->
+    <!--            <tr>-->
+    <!--                <td>Email: </td>-->
+    <!--                <td><form:input path="email" /></td>-->
+    <!--            </tr>-->
+<!--    <tr>-->
+<!--        <td colspan="2"><input type="submit" value="add"></td>-->
+<!--    </tr>-->
+    <!--        </table>-->
+    <!--    </form:from>-->
+<!--</form>-->
+<!--</a>-->

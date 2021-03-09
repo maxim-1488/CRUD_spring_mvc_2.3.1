@@ -40,7 +40,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    //олучаем список всех юзеров
+    //получаем список всех юзеров
     public List<User> getAllUsers() {
         return entityManager.createQuery("from User").getResultList();
     }
