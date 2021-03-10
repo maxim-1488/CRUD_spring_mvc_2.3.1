@@ -23,8 +23,6 @@ public class UserController {
 
     @GetMapping(value = "/users")
     public String listUsers(Model model) {
-        //modelAndView.addObject("user", new User());
-        //model.addAttribute("user" , new User());
         model.addAttribute("allUsers", userService.getAllUsers());
         return "users";
     }
@@ -51,7 +49,7 @@ public class UserController {
 
     @PostMapping(value = "/edit")
     public String editUser(@ModelAttribute User user) {
-        userService.updateUser(user);
+            userService.updateUser(user);
         return "redirect:/users";
     }
 

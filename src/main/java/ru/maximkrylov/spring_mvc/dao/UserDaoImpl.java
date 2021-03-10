@@ -24,7 +24,6 @@ public class UserDaoImpl implements UserDao {
     @Override //обновить
     public void updateUser(User user) {
         entityManager.merge(user);
-
     }
 
     @Override // удалить юзера
